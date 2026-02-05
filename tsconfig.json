@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "nodenext",
+    "lib": ["dom", "esnext"],
+    "outDir": "./build",
+    "rootDir": ".",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext",
+    "declaration": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "."
+  },
+  "include": ["./src"]
+}

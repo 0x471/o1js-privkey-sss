@@ -1,0 +1,24 @@
+{
+  "name": "o1js-privkey-sss",
+  "version": "0.1.0",
+  "description": "Split and reconstruct o1js private keys using Shamir's Secret Sharing (t-of-n threshold scheme). Built on Privy's audited SSS library.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && find build/src -name '*.test.js' -exec node --test {} \\;"
+  },
+  "dependencies": {
+    "shamir-secret-sharing": "^0.0.4",
+    "o1js": "https://pkg.pr.new/o1-labs/o1js@2701"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18.14.0"
+  }
+}
