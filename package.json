@@ -6,6 +6,9 @@
   "type": "module",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
+  "bin": {
+    "sss": "build/src/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "npm run build && find build/src -name '*.test.js' -exec node --test {} \\;"

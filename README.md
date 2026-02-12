@@ -10,6 +10,51 @@ npm run build
 npm test
 ```
 
+## CLI
+
+The `sss` CLI wraps the ceremony protocol for terminal use.
+
+```bash
+# 1. Each participant + coordinator generates an X25519 keypair
+node build/src/cli.js keygen > alice.json
+node build/src/cli.js keygen > bob.json
+node build/src/cli.js keygen > carol.json
+node build/src/cli.js keygen > coordinator.json
+
+# 2. Phase 1: generate Mina keypair, sign, split into encrypted shares (2-of-3)
+node build/src/cli.js generate \
+  --threshold 2 \
+  --pubkeys alice.json,bob.json,carol.json \
+  --message "hello mina" > ceremony.json
+
+# 3. Phase 2: each participant recodes their share for the coordinator
+node build/src/cli.js recode \
+  --ceremony ceremony.json --index 0 \
+  --sk alice.json --coordinator coordinator.json \
+  --nonce 42 > recoded-0.json
+
+node build/src/cli.js recode \
+  --ceremony ceremony.json --index 1 \
+  --sk bob.json --coordinator coordinator.json \
+  --nonce 42 > recoded-1.json
+
+# 4. Phase 3: coordinator reconstructs and signs
+node build/src/cli.js sign \
+  --sk coordinator.json \
+  --shares recoded-0.json,recoded-1.json \
+  --ceremony ceremony.json \
+  --message "hello mina" --nonce 42 > signature.json
+
+# 5. Verify
+node build/src/cli.js verify \
+  --signature signature.json \
+  --ceremony ceremony.json \
+  --message "hello mina"
+# -> {"valid":true}
+```
+
+Run any command with `--help` for flag details.
+
 ## Ceremony Protocol
 
 The ceremony lets a group of participants collectively hold a Mina private key and produce signatures without any single party ever seeing the full key. It runs in three phases:
